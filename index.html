@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- Codificación: para que se vean bien acentos y signos como ¿ -->
+  <meta charset="UTF-8">
+  <!-- Para que se vea bien en celular -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basta Tecnológico</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <main class="juego">
+    <h1>¿Estás preparado?</h1>
+    <p class="subtitulo">Gira la ruleta y demuestra cuánto sabes de tecnología</p>
+
+    <!-- Contenedor de la ruleta: el puntero se posiciona encima del canvas -->
+    <div class="ruleta-contenedor">
+      <div class="puntero"></div>
+      <canvas id="ruleta" width="600" height="600"
+              aria-label="Ruleta doble: letra y categoría"></canvas>
+    </div>
+
+    <button id="btn-girar" type="button">¡Girar!</button>
+
+    <!-- Aquí mostraremos la letra y la categoría que salgan -->
+    <div id="resultado" aria-live="polite"></div>
+        <div id="temporizador" class="temporizador" hidden>
+      <div class="temporizador-pista">
+        <div id="temporizador-progreso" class="temporizador-progreso"></div>
+      </div>
+      <span id="temporizador-tiempo" class="temporizador-tiempo"></span>
+      <button id="btn-basta" type="button">¡BASTA!</button>
+    </div>
+  </main>
+  <!-- Ventana con el resultado. El form method="dialog" cierra el diálogo
+       al presionar el botón, sin necesidad de JavaScript. -->
+  <dialog id="dialogo-resultado">
+    <form method="dialog">
+      <p class="dialogo-etiqueta">Te tocó la letra</p>
+      <div id="dialogo-letra" class="dialogo-letra"></div>
+      <p class="dialogo-etiqueta">en la categoría</p>
+      <div id="dialogo-categoria" class="dialogo-categoria"></div>
+      <button class="btn-dialogo">¡A jugar!</button>
+    </form>
+  </dialog>
+  <!-- Orden importante: config.js primero, porque app.js usa lo que define -->
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

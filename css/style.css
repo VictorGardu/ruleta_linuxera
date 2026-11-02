@@ -1,0 +1,270 @@
+/* ============================================
+   VARIABLES: aquí se personaliza todo el look
+   ============================================ */
+:root {
+  --fondo: #0f172a;
+  --fondo-tarjeta: #1e293b;
+  --texto: #f1f5f9;
+  --texto-suave: #94a3b8;
+  --acento: #22d3ee;
+  --acento-hover: #06b6d4;
+  --puntero: #f43f5e;
+
+  --fuente: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --tamano-ruleta: min(90vw, 560px);
+}
+
+/* ============================================
+   RESET BÁSICO
+   ============================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================
+   PÁGINA
+   ============================================ */
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top, #1e293b, var(--fondo));
+  color: var(--texto);
+  font-family: var(--fuente);
+}
+
+.juego {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  letter-spacing: 0.5px;
+}
+
+.subtitulo {
+  color: var(--texto-suave);
+  max-width: 40ch;
+}
+
+/* ============================================
+   RULETA Y PUNTERO
+   ============================================ */
+.ruleta-contenedor {
+  position: relative;
+  width: var(--tamano-ruleta);
+  aspect-ratio: 1 / 1;
+}
+
+#ruleta {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 0 40px rgba(34, 211, 238, 0.25);
+}
+
+/* Triángulo apuntando hacia el centro, arriba de la ruleta */
+.puntero {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-top: 32px solid var(--puntero);
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+/* ============================================
+   BOTÓN
+   ============================================ */
+#btn-girar {
+  padding: 0.85rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--fondo);
+  background: var(--acento);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.15s, background 0.15s;
+}
+
+#btn-girar:hover {
+  background: var(--acento-hover);
+  transform: translateY(-2px);
+}
+
+#btn-girar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============================================
+   RESULTADO
+   ============================================ */
+#resultado {
+  min-height: 3.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+/* ============================================
+   DIÁLOGO DE RESULTADO
+   ============================================ */
+#dialogo-resultado {
+  --color-categoria: var(--acento); /* JS lo cambia según la categoría */
+  margin: auto;
+  padding: 0; /* el padding va en el form (ver nota en JS) */
+  border: 3px solid var(--color-categoria);
+  border-radius: 20px;
+  background: var(--fondo-tarjeta);
+  color: var(--texto);
+  width: min(90vw, 420px);
+  box-shadow: 0 0 60px color-mix(in srgb, var(--color-categoria) 45%, transparent);
+  animation: aparecer 0.35s ease-out;
+}
+
+#dialogo-resultado::backdrop {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+#dialogo-resultado form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.dialogo-etiqueta {
+  color: var(--texto-suave);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.dialogo-letra {
+  font-size: clamp(5rem, 22vw, 8rem);
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-categoria);
+}
+
+.dialogo-categoria {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.btn-dialogo {
+  padding: 0.7rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--fondo);
+  background: var(--color-categoria);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.btn-dialogo:hover {
+  transform: translateY(-2px);
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+/* ============================================
+   TEMPORIZADOR
+   ============================================ */
+.temporizador {
+  --color-categoria: var(--acento); /* JS lo cambia según la categoría */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: var(--tamano-ruleta);
+}
+
+/* El atributo hidden pierde contra display:flex, así que lo reforzamos */
+.temporizador[hidden] {
+  display: none;
+}
+
+.temporizador-pista {
+  width: 100%;
+  height: 12px;
+  background: var(--fondo-tarjeta);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.temporizador-progreso {
+  height: 100%;
+  background: var(--color-categoria);
+  border-radius: 999px;
+  transform-origin: left;
+}
+
+.temporizador-tiempo {
+  font-size: 2.5rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums; /* dígitos del mismo ancho: no "tiembla" */
+}
+
+#btn-basta {
+  padding: 0.7rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #fff;
+  background: var(--puntero);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+#btn-basta:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+#btn-basta:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Últimos segundos: todo en rojo y latiendo */
+.temporizador.urgente .temporizador-progreso {
+  background: var(--puntero);
+}
+
+.temporizador.urgente .temporizador-tiempo {
+  color: var(--puntero);
+  animation: latido 1s ease-in-out infinite;
+}
+
+.temporizador.terminado .temporizador-tiempo {
+  color: var(--puntero);
+}
+
+@keyframes latido {
+  50% { transform: scale(1.15); }
+}
